@@ -87,6 +87,14 @@ export default function LoginPage() {
   const [slide, setSlide]         = useState(0)
   const [captionKey, setCaptionKey] = useState(0)
 
+  // Preload all carousel images immediately so transitions are lag-free
+  useEffect(() => {
+    SLIDES.forEach((s) => {
+      const img = new window.Image()
+      img.src = s.image
+    })
+  }, [])
+
   // Auto-advance carousel
   useEffect(() => {
     const t = setInterval(() => {
@@ -116,7 +124,7 @@ export default function LoginPage() {
   const displayError = localError || error
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden', display: 'flex', fontFamily: 'Lora, serif' }}>
+    <div style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', fontFamily: 'Lora, serif' }}>
       <style>{CSS}</style>
 
       {/* ── Animated colour orbs (behind everything) ── */}
@@ -138,9 +146,8 @@ export default function LoginPage() {
               width: '100%', height: '100%',
               objectFit: 'cover', objectPosition: s.objectPos,
               opacity: i === slide ? 1 : 0,
-              transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
-              zIndex: i === slide ? 1 : 0,
-              transform: 'scale(1.03)',
+              transition: 'opacity 1.2s ease-in-out',
+              willChange: 'opacity',
             }}
           />
         ))}
@@ -151,10 +158,10 @@ export default function LoginPage() {
       </div>
 
       {/* ── Split content ── */}
-      <div style={{ position: 'relative', zIndex: 10, display: 'flex', width: '100%', minHeight: '100vh' }}>
+      <div style={{ position: 'relative', zIndex: 10, display: 'flex', width: '100%', height: '100%' }}>
 
         {/* ════════════ LEFT PANEL ════════════ */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2.5rem 3rem' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2.5rem 3rem', height: '100%', overflowY: 'auto' }}>
 
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
@@ -240,6 +247,8 @@ export default function LoginPage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            height: '100%',
+            overflowY: 'auto',
             padding: '2.5rem 2.25rem',
           }}
         >
