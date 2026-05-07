@@ -2,7 +2,7 @@
 // Handles login/register switching and authentication flow
 
 import React, { useState, useEffect } from 'react';
-import LoginForm from './LoginForm';
+import LoginPage from '../../features/auth/LoginPage';
 import RegisterForm from './RegisterForm';
 import { useAuthStore } from '../../stores/authStore';
 
@@ -57,20 +57,11 @@ const AuthWrapper = () => {
           </div>
         );
       default:
-        return (
-          <LoginForm
-            onSwitchToRegister={handleSwitchToRegister}
-            onForgotPassword={handleForgotPassword}
-          />
-        );
+        return <LoginPage />;
     }
   };
 
-  return (
-    <div className="min-h-screen bg-blue-50">
-      {renderCurrentView()}
-    </div>
-  );
+  return renderCurrentView();
 };
 
 export default AuthWrapper;
